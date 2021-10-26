@@ -7,4 +7,7 @@ import TrackPlayer from 'react-native-track-player';
 // It also ensures that whether you load the app in the Expo client or in a native build,
 // the environment is set up appropriately
 registerRootComponent(App);
+TrackPlayer.updateOptions({
+    stopWithApp: true
+});
 TrackPlayer.registerPlaybackService(() => require('./src/service'));
