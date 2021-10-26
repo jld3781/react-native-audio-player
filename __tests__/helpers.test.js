@@ -7,7 +7,7 @@ describe('playPauseButtonTitle', () => {
         jest.clearAllMocks()
     })
 
-    it('should show the pause button when music is playing', () => {
+    it('should show the pause button when audio is playing', () => {
         const isPlaying = true
 
         const result = playPauseButtonTitle(isPlaying)
@@ -15,7 +15,7 @@ describe('playPauseButtonTitle', () => {
         expect(result).toBe("Pause")
     })
     
-    it('should show the pause button when music is playing', () => {
+    it('should show the pause button when audio is playing', () => {
         const isPlaying = false
 
         const result = playPauseButtonTitle(isPlaying)
@@ -30,7 +30,7 @@ describe('togglePlayPause', () => {
         jest.clearAllMocks()
     })
 
-    it('should pause the music when the music is playing', async () => {
+    it('should pause the audio when the audio is playing', async () => {
         const isPlaying = true
         
         togglePlayPause(isPlaying)
@@ -38,7 +38,7 @@ describe('togglePlayPause', () => {
         await expect(TrackPlayer.pause).toHaveBeenCalled()
     })
     
-    it('should play the music when the music is not playing', async () => {
+    it('should play the audio when the audio is not playing', async () => {
         const isPlaying = false
 
         togglePlayPause(isPlaying)
@@ -53,7 +53,7 @@ describe('jumpToPosition', () => {
         jest.clearAllMocks()
     })
 
-    it('should progress the music back 30 seconds when the previous button is pressed', async () => {
+    it('should progress the audio back 30 seconds when the previous button is pressed', async () => {
         const startPosition = 60
         const offset = -30
         const expectedEndPosition = 30
@@ -64,7 +64,7 @@ describe('jumpToPosition', () => {
         expect(TrackPlayer.seekTo).toHaveBeenCalledWith(expectedEndPosition)
     })
     
-    it('should progress the music forward 30 seconds when the next button is pressed', async () => {
+    it('should progress the audio forward 30 seconds when the next button is pressed', async () => {
         const startPosition = 60
         const offset = 30
         const expectedEndPosition = 90
@@ -75,7 +75,7 @@ describe('jumpToPosition', () => {
         expect(TrackPlayer.seekTo).toHaveBeenCalledWith(expectedEndPosition)
     })
 
-    it('should start the music at the beginning when the previous button is pressed and 30 seconds or less have elapsed', async () => {
+    it('should start the audio at the beginning when the previous button is pressed and 30 seconds or less have elapsed', async () => {
         const startPosition = 15
         const offset = -30
         const expectedEndPosition = 0
@@ -89,7 +89,7 @@ describe('jumpToPosition', () => {
 
 describe('getIsPlaying', () => {
 
-    it('should return true when the music is playing', () => {
+    it('should return true when the audio is playing', () => {
         const state = State.Playing
 
         const result = getIsPlaying(state)
@@ -97,7 +97,7 @@ describe('getIsPlaying', () => {
         expect(result).toBe(true)
     })
 
-    it('should return true when the music is buffering', () => {
+    it('should return true when the audio is buffering', () => {
         const state = State.Buffering
 
         const result = getIsPlaying(state)
@@ -105,7 +105,7 @@ describe('getIsPlaying', () => {
         expect(result).toBe(true)
     })
 
-    it('should return false when the music is paused', () => {
+    it('should return false when the audio is paused', () => {
         const state = State.Paused
 
         const result = getIsPlaying(state)
@@ -113,7 +113,7 @@ describe('getIsPlaying', () => {
         expect(result).toBe(false)
     })
 
-    it('should return false when the music is stopped', () => {
+    it('should return false when the audio is stopped', () => {
         const state = State.Stopped
 
         const result = getIsPlaying(state)
