@@ -97,8 +97,24 @@ describe('getIsPlaying', () => {
         expect(result).toBe(true)
     })
 
-    it('should return false when the music is not playing', () => {
+    it('should return true when the music is buffering', () => {
+        const state = State.Buffering
+
+        const result = getIsPlaying(state)
+
+        expect(result).toBe(true)
+    })
+
+    it('should return false when the music is paused', () => {
         const state = State.Paused
+
+        const result = getIsPlaying(state)
+
+        expect(result).toBe(false)
+    })
+
+    it('should return false when the music is stopped', () => {
+        const state = State.Stopped
 
         const result = getIsPlaying(state)
 

@@ -10,7 +10,7 @@ export const togglePlayPause = async (isPlaying) => {
 
 export const playPauseButtonTitle = (isPlaying) => isPlaying ? "Pause" : "Play"
 
-export const getIsPlaying = (state) => state === State.Playing
+export const getIsPlaying = (state) => (state === State.Playing) || (state === State.Buffering)
   
 export const jumpToPosition = async (offset) => {
     const currentPosition =  await TrackPlayer.getPosition();
