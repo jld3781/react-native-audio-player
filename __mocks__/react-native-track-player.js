@@ -13,6 +13,8 @@ const mockReactNativeTrackPlayer = {
     State: {
         Playing: "playing",
         Paused: "paused",
+        Stopped: "stopped",
+        Buffering: "buffering"
     }
 }
 
