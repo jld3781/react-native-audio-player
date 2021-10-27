@@ -8,7 +8,7 @@ export const togglePlayPause = async (isPlaying) => {
     }
   }
 
-export const playPauseButtonTitle = (isPlaying) => isPlaying ? "Pause" : "Play"
+export const playPauseIconName = (isPlaying) => isPlaying ? "pause" : "play-arrow"
 
 export const getIsPlaying = (state) => (state === State.Playing) || (state === State.Buffering)
   

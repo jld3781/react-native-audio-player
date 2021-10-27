@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { Button, Image, StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, Platform } from 'react-native';
+import { Image, StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, TouchableOpacity, Platform } from 'react-native';
 import TrackPlayer, { Capability, useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
-import { togglePlayPause, playPauseButtonTitle, getIsPlaying, jumpToPosition } from './helpers'
+import { togglePlayPause, playPauseIconName, getIsPlaying, jumpToPosition } from './helpers'
 import { tracks } from './tracks'
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function App() {
 
@@ -42,29 +43,45 @@ export default function App() {
     });
 
     return (
-      <Button title={playPauseButtonTitle(isPlaying)} 
-              onPress={ () => togglePlayPause(isPlaying) }
-      />
+      <TouchableOpacity onPress={() => togglePlayPause(isPlaying)}>
+        <MaterialIcons 
+        name={playPauseIconName(isPlaying)} 
+        size={40} 
+        color="black" 
+        />
+      </TouchableOpacity>
+
     )
   }
 
   const TrackPlayerControls = () => {
     const SEEK_OFFSET = 30
-    const { position } = useProgress()
 
     return (
       <>
         <View style={styles.trackPlayerControlsContainer}>
 
-          {/* <Text>Pos: {position}</Text> */}
-
           <View style={styles.trackPlayerControlsRow}>
-            <Button title="Prev" onPress={ () => jumpToPosition(-SEEK_OFFSET) }/>
-            <PlayPauseControl />
-            <Button title="Next" onPress={ () => jumpToPosition(SEEK_OFFSET) }/>
+            <TouchableOpacity onPress={() => jumpToPosition(-SEEK_OFFSET)}>
+              <MaterialIcons 
+              name="replay-30" 
+              size={24} 
+              color="black" 
+              />
+            </TouchableOpacity>
+            
+            <PlayPauseControl /> 
+
+            <TouchableOpacity onPress={() => jumpToPosition(SEEK_OFFSET)}>
+              <MaterialIcons 
+              name="forward-30" 
+              size={24} 
+              color="black" 
+              />
+            </TouchableOpacity>
           </View>
+
         </View>
-        
       </>
     )
   }
@@ -110,11 +127,28 @@ export default function App() {
         </TouchableHighlight>
       )  
   }
+  const ProgressBar = () => {
+    const { position, buffered, duration } = useProgress()
 
+    let progressWidth = (position / duration * 100) + '%'
+    let bufferWidth = (buffered / duration * 100) + '%'
+
+    return (
+        <View style={styles.progressBar}>
+          <View style={{...styles.progressBarBuffer, width: bufferWidth}}>
+            <View style={{...styles.progressBarProgress, width: progressWidth}}>
+            </View>
+          </View>
+        </View>
+    )
+  }
 
   const Footer = () => {
     return (
       <View style={styles.footerContainer}>
+
+        <ProgressBar/>
+
         <View style={styles.footerRow}>
 
           <Image 
@@ -153,6 +187,22 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  progressBarProgress: {
+    backgroundColor: '#000',
+    height: 4,
+    borderRadius: 5,
+  },
+  progressBarBuffer: {
+    backgroundColor: '#aaa',
+    height: 4,
+    borderRadius: 5,
+  },
+  progressBar: {
+    height: 4,
+    borderRadius: 5,
+    backgroundColor: '#ccc',
+    marginBottom: 15,
+  },
   footerOffset: {
     height: 80
   },
@@ -170,8 +220,10 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     position: "absolute", 
-    flexDirection: "row", 
+    flexDirection: "column", 
     bottom: 0, 
+    right:0,
+    left:0,
     paddingTop: 15, 
     flex: 1, 
     paddingHorizontal: 16, 
@@ -207,5 +259,7 @@ const styles = StyleSheet.create({
   },
   trackPlayerControlsRow: {
     flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center"
   }
 });

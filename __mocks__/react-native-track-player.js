@@ -5,6 +5,8 @@ const mockReactNativeTrackPlayer = {
     seekTo: jest.fn(),
     useProgress: jest.fn(() => ({ 
         position: "", 
+        buffered: "", 
+        duration: ""
     })),
     useTrackPlayerEvents: jest.fn(), 
     Event: {
