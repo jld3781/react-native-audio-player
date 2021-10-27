@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { Button, Image, StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, Platform } from 'react-native';
-import TrackPlayer, { useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
+import TrackPlayer, { Capability, useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
 import { togglePlayPause, playPauseButtonTitle, getIsPlaying, jumpToPosition } from './helpers'
 import { tracks } from './tracks'
 
@@ -13,6 +13,20 @@ export default function App() {
   useEffect(() => {
     async function setupTrackPlayer() {
       await TrackPlayer.setupPlayer({})
+      await TrackPlayer.updateOptions({
+        stopWithApp: true,
+        capabilities: [
+          Capability.Play,
+          Capability.Pause,
+          Capability.SkipToNext,
+          Capability.SkipToPrevious,
+          Capability.Stop,
+        ],
+        compactCapabilities: [
+          Capability.Play, 
+          Capability.Pause
+        ],
+      });
       await TrackPlayer.add(tracks)
     }
     setupTrackPlayer()
