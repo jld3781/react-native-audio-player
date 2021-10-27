@@ -10,25 +10,28 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(null)
   
+  async function setupTrackPlayer() {
+    await TrackPlayer.setupPlayer({})
+    await TrackPlayer.updateOptions({
+      stopWithApp: true,
+      capabilities: [
+        Capability.Play,
+        Capability.Pause,
+        Capability.SkipToNext,
+        Capability.SkipToPrevious,
+        Capability.Stop,
+      ],
+      compactCapabilities: [
+        Capability.Play, 
+        Capability.Pause
+      ],
+    });
+    const firstTrackId = 0
+    const firstTrack = tracks.find(track => track.id === firstTrackId)
+    await TrackPlayer.add(firstTrack)
+  }
+
   useEffect(() => {
-    async function setupTrackPlayer() {
-      await TrackPlayer.setupPlayer({})
-      await TrackPlayer.updateOptions({
-        stopWithApp: true,
-        capabilities: [
-          Capability.Play,
-          Capability.Pause,
-          Capability.SkipToNext,
-          Capability.SkipToPrevious,
-          Capability.Stop,
-        ],
-        compactCapabilities: [
-          Capability.Play, 
-          Capability.Pause
-        ],
-      });
-      await TrackPlayer.add(tracks)
-    }
     setupTrackPlayer()
   }, [])
 
@@ -72,7 +75,10 @@ export default function App() {
     }
   })
   const startTrack = async (index) => {
-    await TrackPlayer.skip(Number(index))
+    await TrackPlayer.reset()
+    const nextTrack = tracks.find(track => track.id === index)
+    await TrackPlayer.add(nextTrack)
+    await TrackPlayer.play()
   }
 
   const renderTrack = ({ item }) => {
@@ -128,25 +134,27 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
+    <SafeAreaView>
+        <StatusBar style="auto" />
 
-      <SafeAreaView style={styles.container}>
-          <FlatList
-            data={tracks}
-            renderItem={renderTrack}
-            keyExtractor={item => item.id}
-            style={styles.trackList}
-            ItemSeparatorComponent={() => <View style={styles.listSeparator} />}
-          />
-          <Footer />        
-      </SafeAreaView>
-      
-    </View>
+        <FlatList
+          data={tracks}
+          renderItem={renderTrack}
+          keyExtractor={item => item.id}
+          style={styles.trackList}
+          ItemSeparatorComponent={() => <View style={styles.listSeparator} />}
+          ListFooterComponent={() => <View style={styles.footerOffset} /> }
+        />
+
+        <Footer /> 
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  footerOffset: {
+    height: 80
+  },
   trackList: {
     paddingTop: 10
   },
@@ -185,10 +193,6 @@ const styles = StyleSheet.create({
   },
   trackTitle: {
     fontWeight: "bold"
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'white'
   },
   albumImage: {
     width: 50,
