@@ -14,12 +14,13 @@ export default function App() {
     await TrackPlayer.setupPlayer({})
     await TrackPlayer.updateOptions({
       stopWithApp: true,
+      forwardJumpInterval: 30,
+      backwardJumpInterval: -30,
       capabilities: [
+        Capability.JumpBackward,
         Capability.Play,
         Capability.Pause,
-        Capability.SkipToNext,
-        Capability.SkipToPrevious,
-        Capability.Stop,
+        Capability.JumpForward,
       ],
       compactCapabilities: [
         Capability.Play, 

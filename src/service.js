@@ -1,4 +1,5 @@
 import TrackPlayer, {Event} from 'react-native-track-player'
+import { jumpToPosition } from './helpers'
 
 module.exports = async function setup() {
     TrackPlayer.addEventListener(Event.RemotePause, () => {
@@ -9,15 +10,11 @@ module.exports = async function setup() {
         TrackPlayer.play();
     });
 
-    TrackPlayer.addEventListener(Event.RemoteNext, () => {
-        TrackPlayer.skipToNext();
+    TrackPlayer.addEventListener(Event.RemoteJumpForward, ({interval}) => {
+        jumpToPosition(interval)
     });
     
-    TrackPlayer.addEventListener(Event.RemotePrevious, () => {
-        TrackPlayer.skipToPrevious();
-    });
-
-    TrackPlayer.addEventListener(Event.RemoteStop, () => {
-        TrackPlayer.stop();
+    TrackPlayer.addEventListener(Event.RemoteJumpBackward, ({interval}) => {
+        jumpToPosition(interval)
     });
 }
