@@ -27,7 +27,7 @@ export default function App() {
         Capability.Pause
       ],
     });
-    const firstTrackId = 0
+    const firstTrackId = "0"
     const firstTrack = tracks.find(track => track.id === firstTrackId)
     await TrackPlayer.add(firstTrack)
   }
