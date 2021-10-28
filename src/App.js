@@ -1,6 +1,11 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
-import { View, SafeAreaView, FlatList, TouchableHighlight } from "react-native";
+import {
+  View,
+  StatusBar,
+  SafeAreaView,
+  FlatList,
+  TouchableHighlight,
+} from "react-native";
 import TrackPlayer from "react-native-track-player";
 import { setupTrackPlayer, startTrack } from "./helpers";
 import { tracks } from "./tracks";
@@ -34,7 +39,7 @@ export default function App() {
 
   return (
     <SafeAreaView>
-      <StatusBar style="auto" />
+      <StatusBar backgroundColor={colors.statusBar} barStyle="default" />
       <FlatList
         data={tracks}
         renderItem={renderTrack}

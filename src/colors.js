@@ -7,4 +7,5 @@ export const colors = {
   listSeparatorColor: "#ddd",
   toolbarBackground: "#ddd",
   albumImagePlaceholder: "#ccc",
+  statusBar: "#fff",
 };
