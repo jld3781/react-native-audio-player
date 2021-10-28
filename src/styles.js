@@ -28,7 +28,7 @@ export const toolbarStyles = StyleSheet.create({
     flex: 1, 
     paddingHorizontal: 16, 
     backgroundColor: colors.toolbarBackground, 
-    opacity: 1, //0.95, 
+    opacity: 1,
     zIndex:1000,
     paddingBottom: Platform.OS === 'ios' ? 40 : 20, 
   },
@@ -67,7 +67,6 @@ export const trackListStyles = StyleSheet.create({
     },
   });
   
-
   export const sharedStyles = StyleSheet.create({
   trackDetailsContainer: {
     flex: 1, 

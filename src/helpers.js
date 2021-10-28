@@ -8,11 +8,12 @@ export const togglePlayPause = async (isPlaying) => {
     }
   }
 
-export const getPlayPauseIconName = (isPlaying) => isPlaying ? "pause" : "play-arrow" //play-arrow //play-circle-fill /ed /outline //pause //pause-circle-filled //pause-circle-outline
+export const getPlayPauseIconName = (isPlaying) => isPlaying ? "pause" : "play-arrow" 
 
 export const getIsPlaying = (state) => {
   if (state === State.Playing) return true
 }
+
 export const getIsPaused = (state) => {
   if (state === State.Paused) return true
 }
@@ -29,7 +30,7 @@ export const getBufferWidth = (buffered, duration) => {
   return (buffered / duration * 100) + '%'
 }
 
-export async function setupTrackPlayer(tracks) {
+export const setupTrackPlayer = async (tracks) => {
   await TrackPlayer.setupPlayer({})
   await TrackPlayer.updateOptions({
     stopWithApp: true,
@@ -46,11 +47,11 @@ export async function setupTrackPlayer(tracks) {
       Capability.Pause
     ],
   });
+
   const firstTrackId = "0"
   const firstTrack = tracks.find(track => track.id === firstTrackId)
   await TrackPlayer.add(firstTrack)
 }
-
 
 export const startTrack = async (track) => {
   await TrackPlayer.reset()
