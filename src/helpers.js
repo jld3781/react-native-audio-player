@@ -1,5 +1,5 @@
 import TrackPlayer, { Capability, State } from "react-native-track-player";
-import { isNil } from "lodash";
+import { isNil, first } from "lodash";
 
 export const togglePlayPause = async (isPlaying) => {
   if (isPlaying) {
@@ -43,8 +43,7 @@ export const setupTrackPlayer = async (tracks) => {
     compactCapabilities: [Capability.Play, Capability.Pause],
   });
 
-  const firstTrackId = "0";
-  const firstTrack = tracks.find((track) => track.id === firstTrackId);
+  const firstTrack = first(tracks);
   await TrackPlayer.add(firstTrack);
 };
 

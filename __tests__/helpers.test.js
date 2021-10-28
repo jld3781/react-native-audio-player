@@ -192,7 +192,7 @@ describe("setupTrackPlayer", () => {
   it("should setup the player with the appropriate options for remote play", async () => {
     const tracks = [
       {
-        id: "0",
+        id: "some uuid",
       },
     ];
     const options = {
@@ -216,12 +216,15 @@ describe("setupTrackPlayer", () => {
   });
 });
 
-describe("startTrack", async () => {
-  const track = {};
+describe("startTrack", () => {
+  it("should stop the previous track, add the new track, and start playing", async () => {
+    const track = {};
 
-  startTrack(track);
+    startTrack(track);
 
-  await expect(TrackPlayer.reset).toHaveBeenCalled();
-  await expect(TrackPlayer.add).toHaveBeenCalledWith(track);
-  await expect(TrackPlayer.play).toHaveBeenCalled();
+    // had to call '.reset()' and '.add()' here instead of '.stop()' because of an issue in the track player package for iOS where '.stop()' clears all tracks from the track player queue
+    await expect(TrackPlayer.reset).toHaveBeenCalled();
+    await expect(TrackPlayer.add).toHaveBeenCalledWith(track);
+    await expect(TrackPlayer.play).toHaveBeenCalled();
+  });
 });

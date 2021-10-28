@@ -1,57 +1,72 @@
-# React Native Take Home Exercise
+# React Native Audio Player App
 
-You will have **a week** to complete the following take-home exercise. Please use primarily Javascript to code the following exercise, although you may edit native code for anything that you feel requires it.
+This audio player app streams 16 audio tracks from [SoundHelix](https://www.soundhelix.com/audio-examples).
 
-When submitting your exercise please include:
+### Features
 
-- A Readme for how to run the application and any tests (including any dependencies that must be downloaded). Also feel free to include any notes or tidbits about thought process as you tackled the exercise.
+- Scroll through a list of audio tracks with image, title, and artist
+- Select a song to play
+- Play and pause music
+- Seek forward or backwards by 30 seconds
+- Continue playing audio while app is in background
+- Control audio (start, pause, seek 30 seconds) via device specific controls (i.e. lock screen, pull down menus)
 
-- Any comments to explain particular logic or call out something cool!
+## Install Project & Dependencies
 
-To submit your exercise, please create a repository in Github and email the link to [eng@join-real.com](mailto:eng@join-real.com). Also please email with any questions you may have. Happy Coding!
+These instructions assume you have set up XCode and have an iOS simulator as well as an Android emulator through Android Studio.
 
----
+Clone the repo
 
-## Exercise: Scrollable Audio Streaming
-
-Create an application that allows people to scroll through a list of audio clips, each associated with an image. 
-
-- The list should load at least 16 audio clips. You can use the clips on [SoundHelix](https://www.soundhelix.com/audio-examples).
-
-- You may use whatever images you would like for each audio clip.
-
-- The user should be able to play, pause, and seek 30 seconds forwards or backwards for each audio clip. 
-
-- A user can only play one audio clip at a time.
-
-- The audio should continue playing in the background when a user leaves the app. 
-
-- The app should be performant and not take too long to load initially or too long to load each successive clip.
-
-- We are not judging your design skills, but we would love to see that you can build a beautiful UI. Feel free to use any existing apps for inspiration. 
-
-## Notes
-- Make sure you have `yarn` installed on your machine. If you do not, you can install yarn using Homebrew on Mac:
 ```
-brew install yarn
+git clone https://github.com/jld3781/react-native-audio-player.git
 ```
 
-- We have created a basic app using [create-react-native-app](https://github.com/expo/create-react-native-app) that runs on iOS and Android. To run it, please run:
+Install Dependencies
 
 ```
 yarn
 ```
-And then:
+
+Install Pods
+
+```
+cd ios && pod install
+```
+
+## Run the App
+
+Run on iOS
+
 ```
 yarn ios
 ```
-Or
+
+Run on Android
+
 ```
 yarn android
 ```
-These instructions assume you have set up XCode and have an iOS simulator as well as an Android simulator through Android Studio. 
 
+## Notes
 
-## Requirements
+- Tested with Xcode 12.5 & 13, Android Studio Artic Fox, and command line on iPhone 11 simulator, Pixel XL emulator, and my personal iPhone X device.
+- Had to upgrade Flipper version since the original version included in the project was broken for Xcode 12.5+
+- Added [React Native Track Player](https://github.com/DoubleSymmetry/react-native-track-player). This library has fairly frequent releases, a high number of downloads, a good number of closed issues and PRs, and it supports the features I was looking for.
+- Had to upgrade minimum iOS version to 11.0 to support the React Native Track Player package
+- Originally, I added all 16 tracks to the player on setup of the track player which seemed to have improved performance, but I later found an issue with how the package was handling '.stop()' on iOS (Stop was clearing all tracks from the player queue instead of just stopping the current track). So, I switched to adding only one track to the player at a time and calling '.reset()' then '.add()' for track changes. With these changes, the app seems to still respond quickly.
+- Added tests with Jest
+- Added icons from [Expo vector icon](https://icons.expo.fyi/) library. I decided to go with Expo for the icons since it was already installed and it had the Material icon library with the forward and replay 30 icons.
+- Added images from [Lorem Picsum](https://picsum.photos/). This is a cool resource that allows you to get a random photo at whatever dimensions you need.
+- Made a custom progress bar since Expo doesn't support the [React Native Community Slider](https://www.npmjs.com/package/@react-native-community/slider). Comments on [StackOverflow](https://github.com/expo/expo/issues/4300) suggested using the deprecated [React Native Slider](https://reactnative.dev/docs/slider) until it get's added to the React Native Community, but I decided that a more simple custom progress bar would be preferred to using the deprecated feature.
+- Added [Prettier](https://prettier.io/) for code formatting
+- From a design perspective, I referenced Apple Music, Apple Podcasts, and Spotify, but made changes to accommodate the needs of the assignment.
+- I enabled remote play as a way to control the audio while the app is in background mode.
 
-- The app should run on both Android and iOS
+## Future Ideas
+
+- Add Enzyme Tests
+- Add ESLint
+- Add Typescript
+- Add a single track detail view on separate screen
+- Add navigation header bar
+- Update default splash screen

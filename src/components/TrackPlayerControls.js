@@ -15,7 +15,7 @@ import { colors } from "../colors";
 export const TrackPlayerControls = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const SEEK_OFFSET = 30;
+  const SEEK_INTERVAL = 30;
 
   const PlayPauseControl = () => {
     useTrackPlayerEvents([Event.PlaybackState], async (event) => {
@@ -43,7 +43,7 @@ export const TrackPlayerControls = () => {
     <>
       <View style={playerControlsStyles.trackPlayerControlsContainer}>
         <View style={playerControlsStyles.trackPlayerControlsRow}>
-          <TouchableOpacity onPress={() => jumpToPosition(-SEEK_OFFSET)}>
+          <TouchableOpacity onPress={() => jumpToPosition(-SEEK_INTERVAL)}>
             <MaterialIcons
               name="replay-30"
               size={24}
@@ -53,7 +53,7 @@ export const TrackPlayerControls = () => {
 
           <PlayPauseControl />
 
-          <TouchableOpacity onPress={() => jumpToPosition(SEEK_OFFSET)}>
+          <TouchableOpacity onPress={() => jumpToPosition(SEEK_INTERVAL)}>
             <MaterialIcons
               name="forward-30"
               size={24}
