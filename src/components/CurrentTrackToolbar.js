@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { toolbarStyles } from "./styles";
+import { toolbarStyles } from "../styles";
 import { ProgressBar } from "./ProgressBar";
 import { TrackPlayerControls } from "./TrackPlayerControls";
 import { CurrentTrackInfo } from "./CurrentTrackInfo";

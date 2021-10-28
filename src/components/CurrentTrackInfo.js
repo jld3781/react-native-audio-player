@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image, Text, View } from "react-native";
-import { sharedStyles } from "./styles";
+import { sharedStyles } from "../styles";
 import { isEmpty } from "lodash";
 import TrackPlayer, {
   useTrackPlayerEvents,

@@ -7,10 +7,10 @@ import {
   jumpToPosition,
   getIsPlaying,
   getIsPaused,
-} from "./helpers";
+} from "../helpers";
 import { MaterialIcons } from "@expo/vector-icons";
-import { toolbarStyles } from "./styles";
-import { colors } from "./colors";
+import { toolbarStyles } from "../styles";
+import { colors } from "../colors";
 
 export const TrackPlayerControls = () => {
   const [isPlaying, setIsPlaying] = useState(false);

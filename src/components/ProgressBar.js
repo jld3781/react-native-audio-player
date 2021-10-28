@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 import { useProgress } from "react-native-track-player";
-import { getProgressWidth, getBufferWidth } from "./helpers";
-import { toolbarStyles } from "./styles";
+import { getProgressWidth, getBufferWidth } from "../helpers";
+import { toolbarStyles } from "../styles";
 
 export const ProgressBar = () => {
   const { position, buffered, duration } = useProgress();

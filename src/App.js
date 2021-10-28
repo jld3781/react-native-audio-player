@@ -12,7 +12,7 @@ import TrackPlayer from "react-native-track-player";
 import { setupTrackPlayer, startTrack } from "./helpers";
 import { tracks } from "./tracks";
 import { sharedStyles, trackListStyles } from "./styles";
-import { CurrentTrackToolbar } from "./CurrentTrackToolbar";
+import { CurrentTrackToolbar } from "./components/CurrentTrackToolbar";
 import { isEmpty } from "lodash";
 import { colors } from "./colors";
 
