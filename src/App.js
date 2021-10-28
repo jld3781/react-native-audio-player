@@ -1,20 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
-import {
-  Image,
-  Text,
-  View,
-  SafeAreaView,
-  FlatList,
-  TouchableHighlight,
-} from "react-native";
+import { View, SafeAreaView, FlatList, TouchableHighlight } from "react-native";
 import TrackPlayer from "react-native-track-player";
 import { setupTrackPlayer, startTrack } from "./helpers";
 import { tracks } from "./tracks";
-import { sharedStyles, trackListStyles } from "./styles";
+import { trackListStyles } from "./styles";
 import { CurrentTrackToolbar } from "./components/CurrentTrackToolbar";
 import { isEmpty } from "lodash";
 import { colors } from "./colors";
+import { TrackInfo } from "./components/TrackInfo";
 
 export default function App() {
   useEffect(() => {
@@ -32,15 +26,7 @@ export default function App() {
         onPress={() => startTrack(item)}
       >
         <View key={item.id} style={trackListStyles.trackListItemRow}>
-          <Image
-            source={{ uri: item.artwork }}
-            style={sharedStyles.albumImage}
-          />
-
-          <View style={sharedStyles.trackDetailsContainer}>
-            <Text style={sharedStyles.trackTitle}>{item.title}</Text>
-            <Text>{item.artist}</Text>
-          </View>
+          <TrackInfo track={item} />
         </View>
       </TouchableHighlight>
     );

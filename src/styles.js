@@ -1,7 +1,7 @@
 import { StyleSheet, Platform } from "react-native";
 import { colors } from "./colors";
 
-export const toolbarStyles = StyleSheet.create({
+export const progressBarStyles = StyleSheet.create({
   progressBarProgress: {
     backgroundColor: colors.progressColor,
     height: 4,
@@ -18,6 +18,9 @@ export const toolbarStyles = StyleSheet.create({
     backgroundColor: colors.progressBarBackgroundColor,
     marginBottom: 15,
   },
+});
+
+export const toolbarStyles = StyleSheet.create({
   toolbarContainer: {
     position: "absolute",
     flexDirection: "column",
@@ -38,6 +41,9 @@ export const toolbarStyles = StyleSheet.create({
     justifyContent: "space-between",
     opacity: 1,
   },
+});
+
+export const playerControlsStyles = StyleSheet.create({
   trackPlayerControlsContainer: {
     flexDirection: "column",
     flex: 1,
@@ -67,7 +73,7 @@ export const trackListStyles = StyleSheet.create({
   },
 });
 
-export const sharedStyles = StyleSheet.create({
+export const trackInfoStyles = StyleSheet.create({
   trackDetailsContainer: {
     flex: 1,
     flexDirection: "column",

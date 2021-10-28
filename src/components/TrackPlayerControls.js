@@ -9,7 +9,7 @@ import {
   getIsPaused,
 } from "../helpers";
 import { MaterialIcons } from "@expo/vector-icons";
-import { toolbarStyles } from "../styles";
+import { playerControlsStyles } from "../styles";
 import { colors } from "../colors";
 
 export const TrackPlayerControls = () => {
@@ -41,8 +41,8 @@ export const TrackPlayerControls = () => {
 
   return (
     <>
-      <View style={toolbarStyles.trackPlayerControlsContainer}>
-        <View style={toolbarStyles.trackPlayerControlsRow}>
+      <View style={playerControlsStyles.trackPlayerControlsContainer}>
+        <View style={playerControlsStyles.trackPlayerControlsRow}>
           <TouchableOpacity onPress={() => jumpToPosition(-SEEK_OFFSET)}>
             <MaterialIcons
               name="replay-30"
