@@ -57,7 +57,6 @@ export const startTrack = async (track) => {
   await TrackPlayer.add(track)
   await TrackPlayer.play()
 }
-
   
 export const jumpToPosition = async (offset) => {
     const currentPosition =  await TrackPlayer.getPosition();
@@ -66,4 +65,4 @@ export const jumpToPosition = async (offset) => {
     const newPosition = positionWithOffset < 0 ? 0 : positionWithOffset
 
     TrackPlayer.seekTo(newPosition)
-  }
+}

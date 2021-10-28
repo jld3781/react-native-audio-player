@@ -3,9 +3,11 @@ import { Image, Text, View, TouchableOpacity } from 'react-native';
 import TrackPlayer, { useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
 import { togglePlayPause, getPlayPauseIconName, jumpToPosition, getProgressWidth, getBufferWidth, getIsPlaying, getIsPaused } from './helpers'
 import { MaterialIcons } from '@expo/vector-icons';
-import { styles } from './styles'
+import { sharedStyles, toolbarStyles } from './styles'
+import { isEmpty } from 'lodash'
+import { colors } from './colors'
 
-export const Footer = () => {
+export const CurrentTrackToolbar = () => {
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTrack, setCurrentTrack] = useState(null)
     
@@ -17,20 +19,20 @@ export const Footer = () => {
       })
 
     const CurrentTrackInfo = () => {
-      if (currentTrack === null || currentTrack === undefined || currentTrack === {}) {
-        return <View style={styles.albumImage} />
+      if (isEmpty(currentTrack)) {
+        return <View style={sharedStyles.albumImage} />
       }
 
       return (
         <>
         <Image 
             source={{ uri: currentTrack.artwork }} 
-            style={styles.albumImage} 
+            style={sharedStyles.albumImage} 
           />
 
-          <View style={styles.trackDetailsContainer}>
-            <Text style={styles.trackTitle}>{ currentTrack.title }</Text>
-            <Text>{ currentTrack.artist }</Text>
+          <View style={sharedStyles.trackDetailsContainer}>
+            <Text style={sharedStyles.trackTitle}>{currentTrack.title}</Text>
+            <Text>{currentTrack.artist}</Text>
           </View>
         </>
       )
@@ -39,13 +41,13 @@ export const Footer = () => {
     const ProgressBar = () => {
       const { position, buffered, duration } = useProgress()
   
-      let progressWidth = getProgressWidth(position, duration)
-      let bufferWidth = getBufferWidth(buffered, duration)
+      const progressWidth = getProgressWidth(position, duration)
+      const bufferWidth = getBufferWidth(buffered, duration)
   
       return (
-          <View style={styles.progressBar}>
-            <View style={{...styles.progressBarBuffer, width: bufferWidth}}>
-              <View style={{...styles.progressBarProgress, width: progressWidth}}>
+          <View style={toolbarStyles.progressBar}>
+            <View style={{ ...toolbarStyles.progressBarBuffer, width: bufferWidth }}>
+              <View style={{ ...toolbarStyles.progressBarProgress, width: progressWidth }}>
               </View>
             </View>
           </View>
@@ -69,25 +71,24 @@ export const Footer = () => {
         return (
           <TouchableOpacity onPress={() => togglePlayPause(isPlaying)}>
             <MaterialIcons 
-            name={getPlayPauseIconName(isPlaying)} 
-            size={40} 
-            color="black" 
+                name={getPlayPauseIconName(isPlaying)} 
+                size={40} 
+                color={colors.iconColor}
             />
           </TouchableOpacity>
-    
         )
       }
 
       return (
         <>
-          <View style={styles.trackPlayerControlsContainer}>
+          <View style={toolbarStyles.trackPlayerControlsContainer}>
   
-            <View style={styles.trackPlayerControlsRow}>
+            <View style={toolbarStyles.trackPlayerControlsRow}>
               <TouchableOpacity onPress={() => jumpToPosition(-SEEK_OFFSET)}>
                 <MaterialIcons 
-                name="replay-30" 
-                size={24} 
-                color="black" 
+                    name="replay-30" 
+                    size={24} 
+                    color={colors.iconColor}
                 />
               </TouchableOpacity>
               
@@ -95,9 +96,9 @@ export const Footer = () => {
   
               <TouchableOpacity onPress={() => jumpToPosition(SEEK_OFFSET)}>
                 <MaterialIcons 
-                name="forward-30" 
-                size={24} 
-                color="black" 
+                    name="forward-30" 
+                    size={24} 
+                    color={colors.iconColor}
                 />
               </TouchableOpacity>
             </View>
@@ -108,11 +109,11 @@ export const Footer = () => {
     }
 
     return (
-      <View style={styles.footerContainer}>
+      <View style={toolbarStyles.toolbarContainer}>
 
         <ProgressBar/>
 
-        <View style={styles.footerRow}>
+        <View style={toolbarStyles.toolbarRow}>
           <CurrentTrackInfo />
           <TrackPlayerControls />
         </View>

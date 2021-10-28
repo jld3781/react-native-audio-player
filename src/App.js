@@ -4,8 +4,10 @@ import { Image, Text, View, SafeAreaView, FlatList, TouchableHighlight } from 'r
 import TrackPlayer from 'react-native-track-player';
 import { setupTrackPlayer, startTrack } from './helpers'
 import { tracks } from './tracks'
-import { styles } from './styles'
-import { Footer } from './Footer'
+import { sharedStyles, trackListStyles } from './styles'
+import { CurrentTrackToolbar } from './CurrentTrackToolbar'
+import { isEmpty } from 'lodash'
+import { colors } from './colors'
 
 export default function App() {
   useEffect(() => {
@@ -14,27 +16,27 @@ export default function App() {
   }, [])
 
   const renderTrack = ({ item }) => {
-    if (item === null || item === undefined || item === {}) return null
+    if (isEmpty(item)) return null
 
     return (
       <TouchableHighlight 
         activeOpacity={0.9}
-        underlayColor="#DDDDDD" 
+        underlayColor={colors.rowHighlight} 
         onPress={() => startTrack(item)}
       >
       
         <View 
           key={item.id} 
-          style={styles.trackListItemRow}
+          style={trackListStyles.trackListItemRow}
         >
           
             <Image 
-              source={{ uri: item.artwork}} 
-              style={styles.albumImage} 
+              source={{ uri: item.artwork }} 
+              style={sharedStyles.albumImage} 
             />
 
-            <View style={styles.trackDetailsContainer}>
-              <Text style={styles.trackTitle}>{ item.title }</Text>
+            <View style={sharedStyles.trackDetailsContainer}>
+              <Text style={sharedStyles.trackTitle}>{ item.title }</Text>
               <Text>{ item.artist }</Text>
             </View>
             
@@ -51,11 +53,11 @@ export default function App() {
           data={tracks}
           renderItem={renderTrack}
           keyExtractor={item => item.id}
-          style={styles.trackList}
-          ItemSeparatorComponent={() => <View style={styles.listSeparator} />}
-          ListFooterComponent={() => <View style={styles.footerOffset} /> }
+          style={trackListStyles.trackList}
+          ItemSeparatorComponent={() => <View style={trackListStyles.listSeparator} />}
+          ListFooterComponent={() => <View style={trackListStyles.footerOffset} /> }
         />
-        <Footer /> 
+        <CurrentTrackToolbar /> 
     </SafeAreaView>
   );
 }
