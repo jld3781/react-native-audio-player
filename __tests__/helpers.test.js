@@ -1,7 +1,7 @@
-import { togglePlayPause, playPauseButtonTitle, getIsPlaying, jumpToPosition } from '../src/helpers'
+import { togglePlayPause, getPlayPauseIconName, getIsPlaying, jumpToPosition } from '../src/helpers'
 import TrackPlayer, { State } from 'react-native-track-player';
 
-describe('playPauseButtonTitle', () => {
+describe('getPlayPauseIconName', () => {
 
     beforeEach(() => {
         jest.clearAllMocks()
@@ -10,17 +10,17 @@ describe('playPauseButtonTitle', () => {
     it('should show the pause button when audio is playing', () => {
         const isPlaying = true
 
-        const result = playPauseButtonTitle(isPlaying)
+        const result = getPlayPauseIconName(isPlaying)
 
-        expect(result).toBe("Pause")
+        expect(result).toBe("pause")
     })
     
     it('should show the pause button when audio is playing', () => {
         const isPlaying = false
 
-        const result = playPauseButtonTitle(isPlaying)
+        const result = getPlayPauseIconName(isPlaying)
 
-        expect(result).toBe("Play")
+        expect(result).toBe("play-arrow")
     })
 })
 

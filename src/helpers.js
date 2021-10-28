@@ -1,4 +1,4 @@
-import TrackPlayer, { State } from 'react-native-track-player';
+import TrackPlayer, { Capability, State } from 'react-native-track-player';
 
 export const togglePlayPause = async (isPlaying) => {
     if (isPlaying){
@@ -8,9 +8,56 @@ export const togglePlayPause = async (isPlaying) => {
     }
   }
 
-export const playPauseIconName = (isPlaying) => isPlaying ? "pause" : "play-arrow"
+export const getPlayPauseIconName = (isPlaying) => isPlaying ? "pause" : "play-arrow" //play-arrow //play-circle-fill /ed /outline //pause //pause-circle-filled //pause-circle-outline
 
-export const getIsPlaying = (state) => (state === State.Playing) || (state === State.Buffering)
+export const getIsPlaying = (state) => {
+  if (state === State.Playing) return true
+}
+export const getIsPaused = (state) => {
+  if (state === State.Paused) return true
+}
+
+export const getProgressWidth = (position, duration) => {
+  if (duration <= 0) return 0
+
+  return (position / duration * 100) + '%'
+}
+
+export const getBufferWidth = (buffered, duration) => {
+  if (duration <= 0) return 0
+
+  return (buffered / duration * 100) + '%'
+}
+
+export async function setupTrackPlayer(tracks) {
+  await TrackPlayer.setupPlayer({})
+  await TrackPlayer.updateOptions({
+    stopWithApp: true,
+    forwardJumpInterval: 30,
+    backwardJumpInterval: -30,
+    capabilities: [
+      Capability.JumpBackward,
+      Capability.Play,
+      Capability.Pause,
+      Capability.JumpForward,
+    ],
+    compactCapabilities: [
+      Capability.Play, 
+      Capability.Pause
+    ],
+  });
+  const firstTrackId = "0"
+  const firstTrack = tracks.find(track => track.id === firstTrackId)
+  await TrackPlayer.add(firstTrack)
+}
+
+
+export const startTrack = async (track) => {
+  await TrackPlayer.reset()
+  await TrackPlayer.add(track)
+  await TrackPlayer.play()
+}
+
   
 export const jumpToPosition = async (offset) => {
     const currentPosition =  await TrackPlayer.getPosition();
