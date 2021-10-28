@@ -3,6 +3,10 @@ const mockReactNativeTrackPlayer = {
   play: jest.fn(),
   getPosition: jest.fn(),
   seekTo: jest.fn(),
+  reset: jest.fn(),
+  add: jest.fn(),
+  setupPlayer: jest.fn(),
+  updateOptions: jest.fn(),
   useProgress: jest.fn(() => ({
     position: "",
     buffered: "",
@@ -17,6 +21,12 @@ const mockReactNativeTrackPlayer = {
     Paused: "paused",
     Stopped: "stopped",
     Buffering: "buffering",
+  },
+  Capability: {
+    JumpBackward: "jump-backward",
+    Play: "play",
+    Pause: "pause",
+    JumpForward: "jump-forward",
   },
 };
 

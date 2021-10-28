@@ -2,9 +2,14 @@ import {
   togglePlayPause,
   getPlayPauseIconName,
   getIsPlaying,
+  getIsPaused,
+  getProgressWidth,
+  getBufferWidth,
+  setupTrackPlayer,
   jumpToPosition,
+  startTrack,
 } from "../src/helpers";
-import TrackPlayer, { State } from "react-native-track-player";
+import TrackPlayer, { State, Capability } from "react-native-track-player";
 
 describe("getPlayPauseIconName", () => {
   beforeEach(() => {
@@ -98,14 +103,6 @@ describe("getIsPlaying", () => {
     expect(result).toBe(true);
   });
 
-  it("should return true when the audio is buffering", () => {
-    const state = State.Buffering;
-
-    const result = getIsPlaying(state);
-
-    expect(result).toBe(true);
-  });
-
   it("should return false when the audio is paused", () => {
     const state = State.Paused;
 
@@ -113,13 +110,118 @@ describe("getIsPlaying", () => {
 
     expect(result).toBe(false);
   });
+});
 
-  it("should return false when the audio is stopped", () => {
-    const state = State.Stopped;
+describe("getIsPaused", () => {
+  it("should return true when the audio is paused", () => {
+    const state = State.Paused;
 
-    const result = getIsPlaying(state);
+    const result = getIsPaused(state);
+
+    expect(result).toBe(true);
+  });
+
+  it("should return false when the audio is playing", () => {
+    const state = State.Playing;
+
+    const result = getIsPaused(state);
 
     expect(result).toBe(false);
   });
 });
 
+describe("getProgressWidth", () => {
+  it("should return '0%' when the track hasn't started yet", () => {
+    const position = 0;
+    const duration = 700;
+
+    const result = getProgressWidth(position, duration);
+
+    expect(result).toBe("0%");
+  });
+
+  it("should return 0 when the duration is less than or equal to zero", () => {
+    const position = 0;
+    const duration = 0;
+
+    const result = getProgressWidth(position, duration);
+
+    expect(result).toBe(0);
+  });
+
+  it("should return 0 when the duration is invalid", () => {
+    const position = 0;
+    const duration = undefined;
+
+    const result = getProgressWidth(position, duration);
+
+    expect(result).toBe(0);
+  });
+});
+
+describe("getBufferWidth", () => {
+  it("should return '0%' when buffering hasn't started yet", () => {
+    const buffered = 0;
+    const duration = 700;
+
+    const result = getBufferWidth(buffered, duration);
+
+    expect(result).toBe("0%");
+  });
+
+  it("should return 0 when the duration is less than or equal to zero", () => {
+    const buffered = 0;
+    const duration = 0;
+
+    const result = getBufferWidth(buffered, duration);
+
+    expect(result).toBe(0);
+  });
+
+  it("should return 0 when the duration is invalid", () => {
+    const buffered = 0;
+    const duration = undefined;
+
+    const result = getBufferWidth(buffered, duration);
+
+    expect(result).toBe(0);
+  });
+});
+
+describe("setupTrackPlayer", () => {
+  it("should setup the player with the appropriate options for remote play", async () => {
+    const tracks = [
+      {
+        id: "0",
+      },
+    ];
+    const options = {
+      stopWithApp: true,
+      forwardJumpInterval: 30,
+      backwardJumpInterval: -30,
+      capabilities: [
+        Capability.JumpBackward,
+        Capability.Play,
+        Capability.Pause,
+        Capability.JumpForward,
+      ],
+      compactCapabilities: [Capability.Play, Capability.Pause],
+    };
+
+    setupTrackPlayer(tracks);
+
+    await expect(TrackPlayer.setupPlayer).toHaveBeenCalledWith({});
+    await expect(TrackPlayer.updateOptions).toHaveBeenCalledWith(options);
+    await expect(TrackPlayer.add).toHaveBeenCalledWith(tracks[0]);
+  });
+});
+
+describe("startTrack", async () => {
+  const track = {};
+
+  startTrack(track);
+
+  await expect(TrackPlayer.reset).toHaveBeenCalled();
+  await expect(TrackPlayer.add).toHaveBeenCalledWith(track);
+  await expect(TrackPlayer.play).toHaveBeenCalled();
+});

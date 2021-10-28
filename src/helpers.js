@@ -1,4 +1,5 @@
 import TrackPlayer, { Capability, State } from "react-native-track-player";
+import { isNil } from "lodash";
 
 export const togglePlayPause = async (isPlaying) => {
   if (isPlaying) {
@@ -11,22 +12,18 @@ export const togglePlayPause = async (isPlaying) => {
 export const getPlayPauseIconName = (isPlaying) =>
   isPlaying ? "pause" : "play-arrow";
 
-export const getIsPlaying = (state) => {
-  if (state === State.Playing) return true;
-};
+export const getIsPlaying = (state) => state === State.Playing;
 
-export const getIsPaused = (state) => {
-  if (state === State.Paused) return true;
-};
+export const getIsPaused = (state) => state === State.Paused;
 
 export const getProgressWidth = (position, duration) => {
-  if (duration <= 0) return 0;
+  if (isNil(duration) || duration <= 0) return 0;
 
   return (position / duration) * 100 + "%";
 };
 
 export const getBufferWidth = (buffered, duration) => {
-  if (duration <= 0) return 0;
+  if (isNil(duration) || duration <= 0) return 0;
 
   return (buffered / duration) * 100 + "%";
 };
